@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+
+const projects = [
+  {
+    meta: 'SIDE PROJECT · 2024 — 至今',
+    name: 'trail-notes',
+    status: '维护中',
+    desc: '离线优先的徒步轨迹记录 PWA。无网可记、出山同步，轨迹与手记存在同一个 Markdown 文件里。为「山里三天不充电」的场景设计，安装包之外的运行时体积不到 300 KB。'
+  },
+  {
+    meta: 'OPEN SOURCE · 2025',
+    name: 'rss-reader-tui',
+    status: '稳定版',
+    desc: '终端里的 RSS 阅读器。Vim 键位，纯键盘操作，没有无限下拉。读完一篇，列表少一条——「全部已读」是它最重要的功能。'
+  },
+  {
+    meta: 'THIS SITE · 2023 — 至今',
+    name: '晚舟手记',
+    status: '第 47 期',
+    desc: '你现在读到的这本刊物。Astro 静态构建，手写的设计系统，规矩线和期号都来自对纸媒的偏爱。源码公开，欢迎翻阅。'
+  }
+];
+---
+<Base title="专题" current="projects">
+  <div class="wrap page-head rise">
+    <p class="kicker">专题</p>
+    <h1>正在建造的东西</h1>
+    <p class="lede">三个长期项目，进度缓慢但持续。它们的原则相同：小、离线可用、不打扰。</p>
+  </div>
+
+  <div class="wrap stack rise rise-1">
+    {projects.map(p => (
+      <article class="feature-card" style="cursor:default;">
+        <span class="fmeta">{p.meta} · {p.status}</span>
+        <h3>{p.name}</h3>
+        <p>{p.desc}</p>
+      </article>
+    ))}
+  </div>
+</Base>
