@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="订阅" current="subscribe">
+  <div class="wrap page-head rise">
+    <p class="kicker">订阅</p>
+    <h1>如何收到新刊</h1>
+    <p class="lede">本刊没有算法推荐，没有推送打扰。两种订阅方式，都免费，都随时可退。</p>
+  </div>
+
+  <div class="wrap grid-2 rise rise-1">
+    <article class="feature-card" style="cursor:default;">
+      <span class="fmeta">推荐</span>
+      <h3>RSS 订阅</h3>
+      <p>把下面这个地址加进任何 RSS 阅读器即可。全文输出，无跟踪参数：</p>
+      <p style="margin-top:14px;"><code style="font-size:13px;background:var(--paper-deep);padding:6px 10px;border-radius:3px;">https://wanzhou.blog/rss.xml</code></p>
+      <p style="margin-top:14px;">还没有阅读器的话，本站作者的 rss-reader-tui 是一个选择，任何图形界面阅读器也都可以。</p>
+    </article>
+    <article class="feature-card" style="cursor:default;">
+      <span class="fmeta">备用</span>
+      <h3>邮件订阅</h3>
+      <p>不习惯 RSS 的话，新刊也会通过邮件投递，一个月最多两封，正文即全文。</p>
+      <p style="margin-top:14px;">发一封标题为「订阅」的邮件到 <a href="mailto:hi@wanzhou.blog">hi@wanzhou.blog</a>，即可加入列表；随时来信「退订」即可移出。</p>
+    </article>
+  </div>
+
+  <section class="section wrap" style="padding-bottom:8px;">
+    <div class="subscribe-block">
+      <p class="kicker">答读者问</p>
+      <h2>为什么不用公众号</h2>
+      <p>因为在这里，读完一篇文章就是读完了，没有下一条在等你。刊物应该有边界，阅读也是。</p>
+      <a class="btn" href="/writing/">从总目录开始读</a>
+    </div>
+  </section>
+</Base>
