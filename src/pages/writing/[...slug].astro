@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map(post => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const all = (await getCollection('posts')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const idx = all.findIndex(p => p.slug === post.slug);
+const prev = idx > 0 ? all[idx - 1] : null;
+const next = idx < all.length - 1 ? all[idx + 1] : null;
+
+const d = post.data.date;
+const dateStr = `${d.getFullYear()} 年 ${d.getMonth() + 1} 月 ${d.getDate()} 日`;
+---
+<Base title={post.data.title} description={post.data.excerpt} current="writing">
+  <article>
+    <header class="article-head wrap rise">
+      <p class="kicker">{post.data.tag}</p>
+      <h1>{post.data.title}</h1>
+      <p class="article-meta">
+        <span class="num">{dateStr}</span>
+        <span aria-hidden="true">·</span>
+        <span>全文约 {post.data.minutes} 分钟</span>
+      </p>
+    </header>
+    <div class="wrap"><hr class="rule-single"></div>
+    <div class="prose wrap rise rise-1">
+      <Content />
+    </div>
+    <nav class="article-nav wrap" aria-label="上下篇">
+      {prev ? (
+        <a href={`/writing/${prev.slug}/`}>上一篇（更新）<strong>{prev.data.title}</strong></a>
+      ) : <span></span>}
+      {next && (
+        <a class="next" href={`/writing/${next.slug}/`}>下一篇（更早）<strong>{next.data.title}</strong></a>
+      )}
+    </nav>
+  </article>
+</Base>
