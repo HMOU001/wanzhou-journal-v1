@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const byYear = new Map<number, typeof posts>();
+for (const p of posts) {
+  const y = p.data.date.getFullYear();
+  if (!byYear.has(y)) byYear.set(y, []);
+  byYear.get(y)!.push(p);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+const numerals = ['壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖', '拾'];
+const fmt = (d: Date) => `${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+---
+<Base title="文章" current="writing">
+  <div class="wrap page-head rise">
+    <p class="kicker">总目录</p>
+    <h1>过往各期</h1>
+    <p class="lede">自 2023 年创刊以来的全部文章，按年份归档。工程笔记与徒步手记交替刊出。</p>
+  </div>
+
+  <div class="wrap rise rise-1">
+    {years.map(year => (
+      <section class="year-group" aria-label={`${year} 年`}>
+        <p class="year-label">{year}</p>
+        <ol class="toc">
+          {byYear.get(year)!.map((post, i) => (
+            <li class="toc-row">
+              <a href={`/writing/${post.slug}/`}>
+                <span class="toc-num">{numerals[i]}</span>
+                <span>
+                  <span class="toc-title">{post.data.title}</span>
+                  <span class="toc-desc">{post.data.excerpt}</span>
+                </span>
+                <span class="toc-leader" aria-hidden="true"></span>
+                <span class="toc-date">{fmt(post.data.date)}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+  </div>
+</Base>
