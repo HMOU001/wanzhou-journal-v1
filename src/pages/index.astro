@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const numerals = ['壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌'];
+const fmt = (d: Date) => `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+---
+<Base title="首页" current="home" masthead="full">
+
+  <section class="section wrap rise rise-1">
+    <div class="editors-note">
+      <p class="kicker">卷首语</p>
+      <p class="lede">这个站点记录我作为前端工程师的建造笔记，也记录一个徒步者走进山里时的离线思考。更新不快，但每篇都写过三遍。</p>
+      <p>我关心工具如何塑造写作，也关心走路如何塑造想法。如果你同时喜欢这两件事，这里大概适合你常来。</p>
+      <p class="signoff">—— 林晚舟，于杭州</p>
+    </div>
+  </section>
+
+  <section class="section wrap rise rise-2" aria-labelledby="toc-heading">
+    <div class="section-head">
+      <h2 id="toc-heading">本期目录</h2>
+      <a class="more" href="/writing/">过往各期 →</a>
+    </div>
+    <ol class="toc">
+      {posts.map((post, i) => (
+        <li class="toc-row">
+          <a href={`/writing/${post.slug}/`}>
+            <span class="toc-num">{numerals[i]}</span>
+            <span>
+              <span class="toc-title">{post.data.title}</span>
+              <span class="toc-desc">{post.data.excerpt}</span>
+            </span>
+            <span class="toc-leader" aria-hidden="true"></span>
+            <span class="toc-date">{fmt(post.data.date)}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <div class="band rise rise-3">
+    <section class="wrap" aria-labelledby="feature-heading">
+      <div class="section-head">
+        <h2 id="feature-heading">专题</h2>
+        <a class="more" href="/projects/">全部专题 →</a>
+      </div>
+      <div class="feature-grid">
+        <a class="feature-card" href="/projects/">
+          <span class="fmeta">SIDE PROJECT · 2024 — 至今</span>
+          <h3>trail-notes</h3>
+          <p>离线优先的徒步轨迹记录 PWA。无网可记、出山同步，轨迹与手记存在同一个 Markdown 文件里。</p>
+        </a>
+        <a class="feature-card" href="/projects/">
+          <span class="fmeta">OPEN SOURCE · 2025</span>
+          <h3>rss-reader-tui</h3>
+          <p>终端里的 RSS 阅读器。Vim 键位，纯键盘操作，为「读完就结束」的阅读体验而设计。</p>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <section class="section wrap" aria-labelledby="subscribe-heading">
+    <div class="subscribe-block">
+      <p class="kicker">邮递</p>
+      <h2 id="subscribe-heading">订阅本刊</h2>
+      <p>新刊通过 RSS 投递，没有算法，没有打扰。一个月最多两期，随时可以退订。</p>
+      <a class="btn" href="/subscribe/">了解订阅方式</a>
+    </div>
+  </section>
+
+</Base>
